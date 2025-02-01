@@ -3,7 +3,7 @@ import cv2
 import tensorflow as tf
 import numpy as np
 import time
-from tensorflow.keras.utils import register_keras_serializable()
+from tensorflow.keras.utils import register_keras_serializable
 from PIL import Image
 import gdown
 import os
