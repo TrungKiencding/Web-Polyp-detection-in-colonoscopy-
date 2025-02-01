@@ -3,3 +3,4 @@ opencv-python-headless
 tensorflow
 numpy
 gdown
+h5py
