@@ -35,9 +35,9 @@ def combined_loss(y_true, y_pred):
     bce = tf.keras.losses.binary_crossentropy(y_true, y_pred)
     return 0.6 * dice + 0.4 * bce
     
-file_id = "1RgisjfzT7Xkj23PH7r3ysMjX9nCqPBhZ/view?usp=sharing"  # Thay thế bằng ID thực tế của bạn
+file_id = "1jdWSH6upP_8BtgFnr2nptYHOgotXIoQc/view?usp=sharing"  # Thay thế bằng ID thực tế của bạn
 url = f"https://drive.google.com/drive/folders/{file_id}"
-model_path = "model_final.h5"
+model_path = "model_final.keras"
 
 if not os.path.exists(model_path):
     st.write("Downloading model from Google Drive...")
