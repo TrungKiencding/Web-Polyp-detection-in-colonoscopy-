@@ -6,6 +6,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import register_keras_serializable
 import time
 from PIL import Image
+import gdown
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -33,11 +34,18 @@ def combined_loss(y_true, y_pred):
     dice = dice_loss(y_true, y_pred)
     bce = tf.keras.losses.binary_crossentropy(y_true, y_pred)
     return 0.6 * dice + 0.4 * bce
+    
+file_id = "1RgisjfzT7Xkj23PH7r3ysMjX9nCqPBhZ/view?usp=sharing"  # Thay thế bằng ID thực tế của bạn
+url = f"https://drive.google.com/drive/folders/{file_id}"
+model_path = "model_final.h5"
 
+if not os.path.exists(model_path):
+    st.write("Downloading model from Google Drive...")
+    gdown.download(url, model_path, quiet=False)
 
 @st.cache_resource()
 def load_model_func():
-    model = load_model('model_final.h5')
+    model = load_model(model_path)
     return model
 with st.spinner('Model is being loaded..'):
     model=load_model_func()
