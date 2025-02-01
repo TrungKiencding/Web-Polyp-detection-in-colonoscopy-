@@ -2,8 +2,6 @@ import streamlit as st
 import cv2
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras.models import load_model
-from tensorflow.keras.utils import register_keras_serializable
 import time
 from PIL import Image
 import gdown
@@ -13,7 +11,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-@register_keras_serializable()
+@tensorflow.keras.utils.register_keras_serializable()
 def iou_metric(y_true, y_pred):
     y_true_f = K.flatten(y_true)
     y_pred_f = K.flatten(y_pred)
@@ -21,16 +19,16 @@ def iou_metric(y_true, y_pred):
     union = K.sum(y_true_f + y_pred_f - y_true_f * y_pred_f)
     iou = tf.where(K.equal(union, 0), 0.0, intersection / union)
     return iou
-@register_keras_serializable()
+@tensorflow.keras.utils.register_keras_serializable()
 def dice_coef(y_true, y_pred, smooth=1e-6):
     y_true_f = K.flatten(y_true)
     y_pred_f = K.flatten(y_pred)
     intersection = K.sum(y_true_f * y_pred_f)
     return (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
-@register_keras_serializable()
+@tensorflow.keras.utils.register_keras_serializable()
 def dice_loss(y_true, y_pred):
     return 1 - dice_coef(y_true, y_pred)
-@register_keras_serializable()
+@tensorflow.keras.utils.register_keras_serializable()
 def combined_loss(y_true, y_pred):
     dice = dice_loss(y_true, y_pred)
     bce = tf.keras.losses.binary_crossentropy(y_true, y_pred)
@@ -46,7 +44,7 @@ if not os.path.exists(model_path):
 
 @st.cache_resource()
 def load_model_func():
-    model = load_model(model_path)
+    model = tf.keras.models.load_model(model_path)
     return model
 with st.spinner('Model is being loaded..'):
     model=load_model_func()
