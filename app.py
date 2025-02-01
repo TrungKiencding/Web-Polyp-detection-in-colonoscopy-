@@ -36,7 +36,7 @@ def combined_loss(y_true, y_pred):
     return 0.6 * dice + 0.4 * bce
     
 file_id = "1jdWSH6upP_8BtgFnr2nptYHOgotXIoQc/view?usp=sharing"  # Thay thế bằng ID thực tế của bạn
-url = f"https://drive.google.com/uc?id={file_id}"
+url = f"https://drive.google.com/file/d/{file_id}"
 model_path = "model_final.keras"
 
 if not os.path.exists(model_path):
