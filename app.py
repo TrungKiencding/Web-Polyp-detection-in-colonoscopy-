@@ -3,6 +3,7 @@ import cv2
 import tensorflow as tf
 import numpy as np
 import time
+from tensorflow.keras.utils import register_keras_serializable()
 from PIL import Image
 import gdown
 import os
@@ -11,7 +12,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-@tensorflow.keras.utils.register_keras_serializable()
+@register_keras_serializable()
 def iou_metric(y_true, y_pred):
     y_true_f = K.flatten(y_true)
     y_pred_f = K.flatten(y_pred)
@@ -19,16 +20,16 @@ def iou_metric(y_true, y_pred):
     union = K.sum(y_true_f + y_pred_f - y_true_f * y_pred_f)
     iou = tf.where(K.equal(union, 0), 0.0, intersection / union)
     return iou
-@tensorflow.keras.utils.register_keras_serializable()
+@register_keras_serializable()
 def dice_coef(y_true, y_pred, smooth=1e-6):
     y_true_f = K.flatten(y_true)
     y_pred_f = K.flatten(y_pred)
     intersection = K.sum(y_true_f * y_pred_f)
     return (2. * intersection + smooth) / (K.sum(y_true_f) + K.sum(y_pred_f) + smooth)
-@tensorflow.keras.utils.register_keras_serializable()
+@register_keras_serializable()
 def dice_loss(y_true, y_pred):
     return 1 - dice_coef(y_true, y_pred)
-@tensorflow.keras.utils.register_keras_serializable()
+@register_keras_serializable()
 def combined_loss(y_true, y_pred):
     dice = dice_loss(y_true, y_pred)
     bce = tf.keras.losses.binary_crossentropy(y_true, y_pred)
